@@ -4,9 +4,12 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block navBar
-      div.container
-        ul.col-md-12.row
-          a(href='#')
-              ul.col-md3.col-md-offset-1 Login
+    nav.bg-light.border.navbar-expand-md.navbar-light
+      .container-fluid
+        a.navabar-brand(href='/')
+          span.yellow L
+            console.log("reliaze o log");
+            ul.nav
+              a(href='#')
+                ol.nav-item Login
     block content
