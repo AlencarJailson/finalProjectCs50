@@ -22,7 +22,7 @@ app.use(session({
 
 app.use(flash());
 
-
+initBd();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
