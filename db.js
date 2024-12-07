@@ -44,9 +44,7 @@ const createTables= () => {
             city_id INTERGER NOT NULL,
             cpf TEXT UNIQUE,
             observation TEXT,
-            seller_id INTERGER NOT NULL,
             FOREIGN KEY(city_id) REFERENCES cities(id)
-            FOREIGN KEY(seller_id) REFERENCES users(id)
         )
     `)
 
@@ -72,7 +70,14 @@ const createTables= () => {
     `)
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS entries (
+        CREATE TABLE IF NOT EXISTS reasons (
+            id INTERGER PRIMARY KEY AUTOINCREMENT,
+            reason TEXT NOT NULL UNIQUE
+        )
+    `)
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS shopping (
             id INTERGER PRIMARY KEY AUTOINCREMENT,
             product_id INTERGER NOT NULL,
             brand TEXT NOT NULL,
@@ -83,6 +88,67 @@ const createTables= () => {
             FOREGEIN KEY(supplier_id) REFERENCES suppliers(id)
         )
     `)
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS sales (
+            id INTERGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTERGER NOT NULL,
+            product_id INTERGERE NOT NULL,
+            brand TEXT NOT NULL,
+            reason_id INTERGER NOT NULL,
+            payment_id INTERGER NOT NULL,
+            date TEXT DEFAULT CURRENT_DATE,
+            return_date TEXT NOT NULL,
+            amount INTERGER NOT NULL,
+            unit_value FLOAT NOT NULL,
+            total_value FLOAT NOT NULL,
+            seller_id INTERGER NOT NULL,
+            FOREIGN KEY(customer_id) REFERENCES customers(id)
+            FOREIGN KEY(product_id) REFERENCES products(id)
+            FOREIGN KEY(reason_id) REFERENCES reasons(id)
+            FOREIGN KEY(payment_id) REFERENCES payment_methods(id)
+            FOREIGN KEY(seller_id) REFERENCES users(id)
+        )
+    `)
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS levy (
+            id INTERGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTERGER NOT NULL,
+            date TEXT DEFAULT CURRENT_DATE,
+            return_date TEXT NOT NULL,
+            value FLOAT NOT NULL,
+            payment_id INTERGER NOT NULL,
+            FOREIGN KEY(customer_id) REFERENCES customers(id)
+            FOREIGN KEY(payment_id) REFERENCES payment_methods(id)
+        )
+    `)
+    db.run(`
+        CREATE TABLE IF NOT EXISTS baskets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_id INTERGER NOT NULL,
+            FOREIGN KEY(product_id) REFERENCES products(id)
+        )
+    `)
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS config_basket (
+            id INTERGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT DEFAULT CURRENT_TIMESTAMP,
+            product_id INTERGER NOT NULL,
+            amount INTERGER NOT NULL,
+            FOREIGN KEY(product_id) REFERENCES products(id)
+        )
+    `)
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS receivables (
+            customers_id INTERGER NOT NULL UNIQUE,
+            to_receive FLOAT NOT NULL
+            FOREIGN KEY(customer_id) REFERENCES customers(id)
+        )
+    `)
+
 };
 
 const initBd = () => {
