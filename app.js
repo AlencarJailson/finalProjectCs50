@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
+const { initBd } = require('./db');
 
 const app = express();
 const port = 3333;
@@ -21,29 +22,6 @@ app.use(session({
 
 app.use(flash());
 
-
-//create and/or conect database
-const db = new sqlite3.Database('lider_cestas.db', (err) => {
-    if (err) {
-        console.error(err.message);
-        throw err;
-    }
-    console.log('Sucess');
-});
-
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS users (
-            id INTERGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE,
-            function TEXT NOT NULL,
-            phone INTERGER NOT NULL
-        )
-    `)
-    db.run(`
-
-    `)
-});
 
 
 // view engine setup
