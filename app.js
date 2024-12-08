@@ -54,7 +54,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.get('/', (req, res) => {
+function loginRequired(req, res, next) {
+    if (!req.session.user_id) {
+        req.flash("error", "Voce deve estar logado");
+    }
+    next();
+}
+
+app.get('/', loginRequired, (req, res) => {
+
     res.send(indexRouter);
 })
 

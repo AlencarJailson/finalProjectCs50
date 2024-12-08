@@ -15,16 +15,16 @@ const createTables= () => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
-            phone TEXT NOT NULL,
+            phone TEXT NOT NULL
         )
     `);
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS cities (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            city TEXT NOT NULL
-        )
-    `);
+    const city = db.run(`
+            CREATE TABLE IF NOT EXISTS cities (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                city TEXT NOT NULL
+            )
+        `);
 
     db.run(`
         CREATE TABLE IF NOT EXISTS customers (
@@ -69,8 +69,8 @@ const createTables= () => {
         CREATE TABLE IF NOT EXISTS bundle (
             product_id INTEGER,
             brand_id INTEGER,
-            bundle INTEGER
-            FOREIGN KEY(product_id) REFERENCES products(id)
+            bundle INTEGER,
+            FOREIGN KEY(product_id) REFERENCES products(id),
             FOREIGN KEY(brand_id) REFERENCES brands(id)
         )
     `);
@@ -93,7 +93,7 @@ const createTables= () => {
         CREATE TABLE IF NOT EXISTS shopping (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_id INTEGER NOT NULL,
-            brand_id INTERGER NOT NULL,
+            brand_id INTEGER NOT NULL,
             amount INTEGER NOT NULL,
             date TEXT NOT NULL,
             payment_id INTEGER,
@@ -120,13 +120,13 @@ const createTables= () => {
             amount INTEGER NOT NULL,
             unit_value FLOAT NOT NULL,
             total_value FLOAT NOT NULL,
+            order_number TEXT NOT NULL,
             seller_id INTEGER NOT NULL,
-            order TEXT NOT NULL,
             FOREIGN KEY(customer_id) REFERENCES customers(id),
             FOREIGN KEY(brand_id) REFERENCES brands(id),
             FOREIGN KEY(product_id) REFERENCES products(id),
             FOREIGN KEY(reason_id) REFERENCES reasons(id),
-            FOREIGN KEY(payment_id) REFERENCES payment_methods(id)
+            FOREIGN KEY(payment_id) REFERENCES payment_methods(id),
             FOREIGN KEY(seller_id) REFERENCES users(id)
         )
     `);
@@ -143,6 +143,7 @@ const createTables= () => {
             FOREIGN KEY(payment_id) REFERENCES payment_methods(id)
         )
     `);
+
     db.run(`
         CREATE TABLE IF NOT EXISTS baskets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -157,7 +158,7 @@ const createTables= () => {
             date TEXT DEFAULT CURRENT_TIMESTAMP,
             basket_id INTEGER NOT NULL,
             amount INTEGER NOT NULL,
-            product_id INTERGER NOT NULL,
+            product_id INTEGER NOT NULL,
             FOREIGN KEY(basket_id) REFERENCES baskets(id),
             FOREIGN KEY(product_id) REFERENCES products(id)
         )
