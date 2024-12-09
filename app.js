@@ -37,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 
 
@@ -81,7 +82,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-
+    res.send(loginRouter);
 });
 
 app.get('/', loginRequired, (req, res) => {
