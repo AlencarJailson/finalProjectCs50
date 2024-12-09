@@ -1,13 +1,13 @@
-    extends layout
-    head
-        title login
-    bloc content
-        form(method='POST', action='/login')
-            div
-                label(for='username') Username:
-                input(type="text", name='username')
-            div
-                label(for='password') Password:
-                input(type='password', name='password')
-            div
-                button(type='submit') Log in
+extends layout
+
+block content
+    h1= title
+    form(method='POST', action='/login')
+        div(class="col-sm-4")
+            label(for='username', class='col-sm-2 col-form-label') Username:
+            input(type="text", class="form-control", name='username')
+        div(class="col-sm-4")
+            label(for='password', class='col-sm-2 col-form-label') Password:
+            input(type='password', class="form-control", name='password')
+        div(class="col-sm-4")
+            button(type='submit', class='btn btn-primary') Log in

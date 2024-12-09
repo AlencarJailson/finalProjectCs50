@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    h1= title
+    form(method='POST', action='/register')
+        div(class="col-sm-4")
+            label(for='username', class='col-sm-2 col-form-label') Username:
+            input(type="text", class="form-control", name='username')
+        div(class="col-sm-4")
+            label(for='phone', class='col-sm-2 col-form-label') Phone:
+            input(type="text", class="form-control", name='phone')
+        div(class="col-sm-4")
+            label(for='password', class='col-sm-2 col-form-label') Password:
+            input(type='password', class="form-control", name='password')
+        div(class="col-sm-4")
+            label(for='confirm', class='col-sm-2 col-form-label') Confirm Password:
+            input(type='password', class="form-control", name='confirm')
+        div(class="col-sm-4")
+            button(type='submit', class='btn btn-primary') Register

@@ -4,7 +4,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const loginRouter = require('./routes/login');
+var loginRouter = require('./routes/login');
+var registerRouter = require('./routes/register')
 const express = require('express');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -12,6 +13,7 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const { initBd } = require('./db');
 
+initBd();
 const app = express();
 const port = 3000;
 
@@ -23,8 +25,6 @@ app.use(session({
 
 app.use(flash());
 
-initBd();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -35,9 +35,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/register', registerRouter);
 
 
 // catch 404 and forward to error handler
@@ -63,13 +64,20 @@ function loginRequired(req, res, next) {
     next();
 }
 
-
 app.get('/', loginRequired, (req, res) => {
     res.send(indexRouter);
 });
 
 app.get('/login', (req, res) => {
     res.send(loginRouter);
+});
+
+app.post('/login', (req, res) => {
+    res.send(loginRouter);
+});
+
+app.get('/register', (req, res) => {
+    res.send(registerRouter);
 });
 
 app.listen(port, () => {
