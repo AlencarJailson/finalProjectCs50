@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const loginRouter = require('./routes/login');
 const express = require('express');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -12,7 +13,7 @@ const sqlite3 = require('sqlite3').verbose();
 const { initBd } = require('./db');
 
 const app = express();
-const port = 3333;
+const port = 3000;
 
 app.use(session({
     secret: 'your-secret-key',
@@ -23,8 +24,6 @@ app.use(session({
 app.use(flash());
 
 initBd();
-
-const db = new sqlite3.Database('./lider_cestas.db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -64,31 +63,14 @@ function loginRequired(req, res, next) {
     next();
 }
 
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
-    if (!username | !password)  {
-        return res.status(403).send('usuario ou senha invalido');
-    }
-    db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
-        if (err) {
-            return res.status(500).send('erro na base de dados');
-        }
-        if (!row | !bcrypt.compareSync(password, row.hash)) {
-            return res.status(403).send('usuario ou senha invalido');
-        }
-        req.session.user_id = row.id;
-        res.redirect('/');
-    });
+
+app.get('/', loginRequired, (req, res) => {
+    res.send(indexRouter);
 });
 
 app.get('/login', (req, res) => {
     res.send(loginRouter);
 });
-
-app.get('/', loginRequired, (req, res) => {
-
-    res.send(indexRouter);
-})
 
 app.listen(port, () => {
     console.log(`Ex app ${port}`)
