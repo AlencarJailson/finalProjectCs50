@@ -4,15 +4,17 @@ html
         link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
         title Leader
     body
-        nav.navbar.navbar-expand-lg.navbar-light.bglight
-        a.navbar-brand(href='#') Leader
-            ul.navbar-nav
-                li.nav-item
-                    a.nav-link(href='/') Home
-                li.nav-item
-                    a.nav-link(href='/login') Login
-                li.nav-item
-                    a.nav-link(href='/register') Register
+        nav(class='navbar navbar-expand-lg bg-body-tertiary')
+            div(class='container-fluid')
+            a(class='navbar-brand', href='#') Leader
+                ul(class='navbar-nav.ml-a')
+                    ol(class='nav-item')
+                        a(class='nav-link', href='/') Home
+                ul(class='navbar-nav.ml-a')
+                    ol(class='nav-item')
+                        a(class='nav-link', href='/login') Login
+                    ol(class='nav-item')
+                        a(class='nav-link', href='/register') Register
     script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js')
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js')

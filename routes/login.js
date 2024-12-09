@@ -3,6 +3,7 @@ var router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('lider_cestas.db');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
 
 router.get('/', (req, res, next) => {
     res.render('login', {title: 'Login'});
