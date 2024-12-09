@@ -24,6 +24,8 @@ app.use(flash());
 
 initBd();
 
+const db = new sqlite3.Database('./lider_cestas.db');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -56,10 +58,31 @@ app.use(function(err, req, res, next) {
 
 function loginRequired(req, res, next) {
     if (!req.session.user_id) {
-        req.flash("error", "Voce deve estar logado");
+        req.flash('error', 'Voce deve estar logado');
     }
     next();
 }
+
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
+    if (!username | !password)  {
+        return res.status(403).send('usuario ou senha invalido');
+    }
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+        if (err) {
+            return res.status(500).send('erro na base de dados');
+        }
+        if (!row | !bcrypt.compareSync(password, row.hash)) {
+            return res.status(403).send('usuario ou senha invalido');
+        }
+        req.session.user_id = row.id;
+        res.redirect('/');
+    });
+});
+
+app.get('/login', (req, res) => {
+
+});
 
 app.get('/', loginRequired, (req, res) => {
 
