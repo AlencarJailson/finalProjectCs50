@@ -12,17 +12,19 @@ router.get('/', (req, res, next) => {
 router.post('/', async (req, res) => {
     const { username, password, confirm, phone } = req.body;
     if (!username || !password || !confirm || !phone) {
-        return res.status(403).send('Preencha todos os campos!');
+        req.flash('error', 'Preencha todos os campos!');
+        return res.status(403).redirect('/register');
     }
     if (password != confirm) {
-        return res.status(403).send('Confirme sua senha!');
+        req.flash('error', 'Confirme sua senha!');
+        return res.status(403).redirect('/register');
     }
     const hash =  await bcrypt.hashSync(password, 10);
     db.run(`
         INSERT INTO users (name, password, phone) VALUES(?, ?, ?)`,
             [username, hash, phone]
         );
-        flash('Registro realizado!');
+        req.flash('sucess', 'Registro realizado!');
         res.redirect('/login');
 });
 
