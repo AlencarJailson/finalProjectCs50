@@ -2,10 +2,11 @@ var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
-var registerRouter = require('./routes/register')
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const loginRouter = require('./routes/login');
+const registerRouter = require('./routes/register')
+const citiesRouter = require('./routes/cities');
 const express = require('express');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -39,6 +40,7 @@ app.use('/login', loginRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
+app.use('/cities', citiesRouter);
 
 
 // catch 404 and forward to error handler
@@ -80,8 +82,12 @@ app.get('/register', (req, res) => {
     res.send(registerRouter);
 });
 
+app.get('/cities', (req, res) => {
+    res.send(citiesRouter);
+});
+
 app.listen(port, () => {
-    console.log(`Ex app ${port}`)
-})
+    console.log(`Ex app ${port}`);
+});
 
 module.exports = app;
