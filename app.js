@@ -74,15 +74,11 @@ app.get('/login', (req, res) => {
     res.send(loginRouter);
 });
 
-app.post('/login', (req, res) => {
-    res.send(loginRouter);
-});
-
 app.get('/register', (req, res) => {
     res.send(registerRouter);
 });
 
-app.get('/cities', (req, res) => {
+app.get('/cities',  loginRequired, (req, res) => {
     res.send(citiesRouter);
 });
 

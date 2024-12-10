@@ -1,14 +1,14 @@
 extends layout
 
-head
+block head
     title register
 block content
     h1= title
     form(method='POST', action='/register')
-        div(class="col-sm-4")
+        div(class='col-sm-4')
             label(for='username', class='col-sm-2 col-form-label') Username:
-            input(type="text", class="form-control", name='username')
-        div(class="col-sm-4")
+            input(type='text', class='form-control', name='username')
+        div(class='col-sm-4')
             label(for='phone', class='col-sm-2 col-form-label') Phone:
             input(type="text", class="form-control", name='phone')
         div(class="col-sm-4")
