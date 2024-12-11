@@ -2,20 +2,34 @@ doctype html
 html
     head
         link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+        script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
+        script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js')
+        script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js')
         title= title
     body
         nav(class='navbar navbar-expand-lg bg-body-tertiary')
             div(class='container-fluid')
-            a(class='navbar-brand', href='#') Leader
-                ul(class='navbar-nav.ml-a')
-                    ol(class='nav-item')
-                        a(class='nav-link', href='/') Home
-                ul(class='navbar-nav.ml-a')
-                    ol(class='nav-item')
-                        a(class='nav-link', href='/login') Login
-                    ol(class='nav-item')
-                        a(class='nav-link', href='/register') Register
-    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
-    script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js')
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js')
+                a(class='navbar-brand', href='#') Leader
+                button(class='navbar-toggler', type='button', data-toggle='collapse', data-target='#navbarNavDropdown', aria-controls='navbarNavDropdown', aria-expanded='false', aria-label='Toggle navigation')
+                    span(class='navbar-toggler-icon')
+                div(class='collapse navbar-collapse', id='navbarNavDropdown')
+                    ul(class='navbar-nav')
+                        li(class='nav-item')
+                            a(class='nav-link active', aria-current='page', href='/') Home
+                        li(class='nav-item')
+                            a(class='nav-link', href='/test') Configurações
+                        li(class='nav-item dropdown')
+                            a(class='nav-link dropdown-toggle', href='#', role='button', data-toggle='dropdown', aria-expanded='false') Cadastros
+                            ul(class='dropdown-menu')
+                                li
+                                    a(class='dropdown-item', href='/cities') Cidades
+                                li
+                                    a(class='dropdown-item', href='/products') Produtos
+                                li
+                                    a(class='dropdown-item', href='/baskets') Cestas
+            ul(class='navbar-nav ms-left')
+                ol(class='nav-item')
+                    a(class='nav-link', href='/login') Login
+                ol(class='nav-item')
+                    a(class='nav-link', href='/register') Register
     block content
