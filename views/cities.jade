@@ -11,8 +11,8 @@ block content
                 tr
                     td= city.city
                     td
-                        form(method='PUT', action='/deletecities')
-                            input(name='city', type='hidden', value=city.city)
+                        form(method='POST', action='/cities/delete')
+                            input(name='id', type='hidden', value=city.id)
                             button(class='btn btn-primary', type='submit') Delete
     form(method='POST', action='/cities')
         div(class='col-sm-4')

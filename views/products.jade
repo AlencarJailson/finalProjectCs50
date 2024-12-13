@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    h1= title
+    table(class= 'table table-hover')
+        thead(class='thead-dark')
+            tr
+                th(scope='col') Product
+        tbody
+            each product in products
+                tr
+                    td= product.description
+                    td
+                        form(method='POST', action='/products/delete')
+                            input(name='id', type='hidden', value=product.id)
+                            button(class='btn btn-primary', type='submit') Delete
+    form(method='POST', action='/products')
+        div(class='col-sm-4')
+            label(for='descryption', class='col-sm-2 col-form-label') Produto:
+            input(type='text', class='form-control', name='description')
+        div(class='col-sm-4')
+            button(type='submit', class='btn btn-primary') Cadastrar

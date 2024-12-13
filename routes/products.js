@@ -5,43 +5,43 @@ const db = new sqlite3.Database('lider_cestas.db');
 const flash = require('connect-flash');
 
 router.get('/', (req, res, next) => {
-    db.all('SELECT * FROM cities', (err, cities) => {
+    db.all('SELECT * FROM products', (err, products) => {
         if (err) {
             return next(err);
         }
-        res.render('cities', { title: 'Cities', cities: cities });
+        res.render('products', { title: 'Products', products: products });
     });
 });
 
 router.post('/', (req, res) => {
-    const { city } = req.body;
-    if (!city) {
-        req.flash('error', 'Digite o nome da cidade!');
-        return res.status(403).redirect('/cities');
+    const { description } = req.body;
+    if (!description) {
+        req.flash('errDescript', 'Digite o Produto');
+        return res.status(403).redirect('/products');
     }
     db.run (`
-        INSERT INTO cities (city) VALUES(?)`,
-            [city]
+        INSERT INTO products (description) VALUES (?)`,
+            [description]
     );
-    req.flash('sucess', 'Cidade cadastrada!');
-    res.redirect('/cities');
+    req.flash('sucess', 'Produto Cadastrado!');
+    res.redirect('/products');
 });
 
 router.post('/delete', (req, res) => {
     const { id } = req.body;
     if (!id) {
-        return res.status(403).redirect('/cities');
+        return res.status(403).redirect('/products');
     }
     db.run (`
-        DELETE FROM cities WHERE id = ?`,
+        DELETE FROM products WHERE id = ?`,
             [id], function(err) {
                 if (err) {
                     req.flash('errDelete', 'Erro na Exclusão');
-                    return res.status(500).redirect('/cities');
+                    return res.status(500).redirect('/products');
                 }
             }
     );
-    res.redirect('/cities');
+    res.redirect('/products');
 });
 
 module.exports = router;
