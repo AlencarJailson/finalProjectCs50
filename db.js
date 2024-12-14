@@ -122,6 +122,7 @@ const createTables= () => {
             total_value FLOAT NOT NULL,
             order_number TEXT NOT NULL,
             seller_id INTEGER NOT NULL,
+            canceled BOOLEAN DEFAULT false,
             FOREIGN KEY(customer_id) REFERENCES customers(id),
             FOREIGN KEY(brand_id) REFERENCES brands(id),
             FOREIGN KEY(product_id) REFERENCES products(id),

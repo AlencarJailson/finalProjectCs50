@@ -1,8 +1,22 @@
 extends layout
 
 block content
-    h1 = title
+    h1= title
+    table(class= 'table table-hover')
+        thead(class='thead-dark')
+            tr
+                th(scope='col') City
+        tbody
+            each city in cities
+                tr
+                    td= city.city
+                    td
+                        form(method='PUT', action='/deletecities')
+                            input(name='city', type='hidden', value=city.city)
+                            button(class='btn btn-primary', type='submit') Delete
     form(method='POST', action='/cities')
         div(class='col-sm-4')
             label(for='city', class='col-sm-2 col-form-label') City:
-            input(type='text', class='form-control', name='city', placeholder='City')
+            input(type='text', class='form-control', name='city')
+        div(class='col-sm-4')
+            button(type='submit', class='btn btn-primary') Cadastrar
