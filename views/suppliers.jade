@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    h1= title
+    table(class= 'table table-hover')
+        thead(class='thead-dark')
+            tr
+                th(scope='col') Supplier
+        tbody
+            each supplier in suppliers
+                tr
+                    td= supplier.name
+                    td
+                        form(method='POST', action='/suppliers/delete')
+                            input(name='id', type='hidden', value=supplier.id)
+                            button(class='btn btn-primary', type='submit') Delete
+    form(method='POST', action='/suppliers')
+        div(class='col-sm-4')
+            label(for='name', class='col-sm-2 col-form-label') Fornecedor:
+            input(type='text', class='form-control', name='name')
+        div(class='col-sm-4')
+            button(type='submit', class='btn btn-primary') Cadastrar

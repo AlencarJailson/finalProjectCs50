@@ -8,6 +8,7 @@ const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register')
 const citiesRouter = require('./routes/cities');
 const productsRouter = require('./routes/products');
+const suppliersRouter = require('./routes/suppliers');
 const express = require('express');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -43,6 +44,7 @@ app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/cities', citiesRouter);
 app.use('/products', productsRouter);
+app.use('/suppliers', suppliersRouter);
 
 
 // catch 404 and forward to error handler
@@ -86,6 +88,10 @@ app.get('/cities', loginRequired, (req, res) => {
 
 app.get('/products', loginRequired, (req, res) => {
     res.send(productsRouter);
+});
+
+app.get('/suppliers', loginRequired, (req, res) => {
+    res.send(suppliersRouter);
 });
 
 app.listen(port, () => {
