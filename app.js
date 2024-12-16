@@ -9,6 +9,8 @@ const registerRouter = require('./routes/register')
 const citiesRouter = require('./routes/cities');
 const productsRouter = require('./routes/products');
 const suppliersRouter = require('./routes/suppliers');
+const basketsRouter = require('./routes/baskets');
+const configurationsRouter = require('./routes/configurations');
 const express = require('express');
 const flash = require('connect-flash');
 const bcrypt = require('bcryptjs');
@@ -45,7 +47,8 @@ app.use('/register', registerRouter);
 app.use('/cities', citiesRouter);
 app.use('/products', productsRouter);
 app.use('/suppliers', suppliersRouter);
-
+app.use('/baskets', basketsRouter);
+app.use('/configuration', configurationsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -92,6 +95,14 @@ app.get('/products', loginRequired, (req, res) => {
 
 app.get('/suppliers', loginRequired, (req, res) => {
     res.send(suppliersRouter);
+});
+
+app.get('/baskets', loginRequired, (req, res) =>{
+    res.send(basketsRouter);
+});
+
+app.get('/configurations', loginRequired, (req, res) =>{
+    res.send(configurationsRouter);
 });
 
 app.listen(port, () => {
