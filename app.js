@@ -48,7 +48,7 @@ app.use('/cities', citiesRouter);
 app.use('/products', productsRouter);
 app.use('/suppliers', suppliersRouter);
 app.use('/baskets', basketsRouter);
-app.use('/configuration', configurationsRouter);
+app.use('/configurations', configurationsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

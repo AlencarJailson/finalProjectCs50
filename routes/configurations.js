@@ -13,39 +13,39 @@ router.get('/', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            res.render('baskets', { title: 'Baskets', baskets: baskets, products: products });
+            res.render('configurations', { title: 'Configurations', products: products, baskets: baskets });
         });
     });
 });
 
 router.post('/', (req, res) => {
-    const { product_id } = req.body;
-    if (!product_id) {
-        return res.status(403).redirect('/baskets');
+    const { date, basket_id, amount, product_id } = req.body;
+    if (!date, !basket_id, !amount, !product_id) {
+        return res.status(403).redirect('/configurations');
     }
     db.run (`
-        INSERT INTO baskets (product_id) VALUES (?)`,
-            [product_id]
+        INSERT INTO config_basket (date, basket_id, amount, product_id) VALUES (?, ?, ?, ?)`,
+        [date, basket_id, amount, product_id]
     );
-    req.flash('sucess', 'Cesta Cadastrada');
-    res.redirect('/baskets');
+    req.flash('sucess', 'Produto Inserido');
+    res.redirect('/configurations');
 });
 
 router.post('/delete', (req, res) => {
     const { id } = req.body;
     if (!id) {
-        return res.status(403).redirect('/baskets');
+        return res.status(403).redirect('/configurations');
     }
     db.run(`
-        DELETE FROM baskets WHERE id = ?`,
+        DELETE FROM config_basket WHERE id = ?`,
             [id], function(err) {
                 if (err) {
                     req.flash('errDelete', 'Erro na exclusão');
-                    return res.status(500).redirect('/baskets');
+                    return res.status(500).redirect('/configurations');
                 }
             }
     );
-    res.redirect('/baskets');
+    res.redirect('/configurations');
 });
 
 module.exports = router;

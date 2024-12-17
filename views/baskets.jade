@@ -19,6 +19,6 @@ block content
             label(for='basket', class='col-sm-2 col-form-label') Cesta
             select(class='form-control', name='product_id')
                 each product in products
-                    option(value=product.id)= product.description
+                    option(value=product.id, selected=false)= product.description
         div(class='col-sm-4')
             button(type='submit', class='btn btn-primary') Cadastrar
