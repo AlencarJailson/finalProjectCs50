@@ -2,27 +2,32 @@ extends layout
 
 block content
     h1= title
-    table(class= 'table table-hover')
+    table(class='table table-hover')
         thead(class='thead-dark')
             tr
-                select(class='form-control', name='product_id')
-                    each basket in baskets
-                        option(value=baskest_id)= basket.description
+                th Produto
+                th Ação
         tbody
-            each product in products
+            each basket in baskets
                 tr
                     td= basket.description
-                td
-                    form(method='POST', action='/configurations/delete')
-                    input(name='id', type='hidden', value=config_basket.id)
-                    button(class='btn btn-primary', type='submit') Delete
+                    td
+                        form(method='POST', action='/configurations/delete')
+                            input(name='id', type='hidden', value=basket.id)
+                            button(class='btn btn-primary', type='submit') Delete
     form(method='POST', action='/configurations')
         div(class='col-sm-4')
-            label(for='config_basket', class='col-sm-2 col-form-label') Inserir Produto
+            label(for='product_id', class='col-sm-2 col-form-label') Produto
             select(class='form-control', name='product_id')
                 each product in products
-                    option(value=product.id, selected=false)= product.description
-            label(for='amount', class='col-sm-2 col-form-label') Quantidade:
+                    option(value=product.id)= product.description
+            label(for='amount', class='col-sm-2 col-form-label') Quantidade
             input(type='text', class='form-control', name='amount')
+            label(for='date', class='col-sm-2 col-form-label') Data
+            input(type='date', class='form-control', name='date')
+            label(for='basket_id', class='col-sm-2 col-form-label') Cesta
+            select(class='form-control', name='basket_id')
+                each basket in baskets
+                    option(value=basket.id)= basket.description
         div(class='col-sm-4')
             button(type='submit', class='btn btn-primary') Cadastrar

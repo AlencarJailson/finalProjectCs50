@@ -13,7 +13,12 @@ router.get('/', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            res.render('configurations', { title: 'Configurations', products: products, baskets: baskets });
+            db.all('SELECT * FROM config_basket JOIN baskets  ON config_basket.basket_id = baskets.id JOIN products ON products.id = baskets.product_id', (err, configurations) => {
+                if (err) {
+                    return next(err);
+                }
+                res.render('configurations', { title: 'Configurations', products: products, baskets: baskets, configurations: configurations });
+            });
         });
     });
 });
