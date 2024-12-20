@@ -2,32 +2,10 @@ extends layout
 
 block content
     h1= title
-    table(class='table table-hover')
-        thead(class='thead-dark')
-            tr
-                th Produto
-                th Ação
-        tbody
+    div(class='col-sm-4')
+        label(for='basket' class='col-sm-2 col-form-label') Cesta
+        select(class='form-control', name='basket_id', onchange='this.form.submit()')
             each basket in baskets
-                tr
-                    td= basket.description
-                    td
-                        form(method='POST', action='/configurations/delete')
-                            input(name='id', type='hidden', value=basket.id)
-                            button(class='btn btn-primary', type='submit') Delete
-    form(method='POST', action='/configurations')
-        div(class='col-sm-4')
-            label(for='product_id', class='col-sm-2 col-form-label') Produto
-            select(class='form-control', name='product_id')
-                each product in products
-                    option(value=product.id)= product.description
-            label(for='amount', class='col-sm-2 col-form-label') Quantidade
-            input(type='text', class='form-control', name='amount')
-            label(for='date', class='col-sm-2 col-form-label') Data
-            input(type='date', class='form-control', name='date')
-            label(for='basket_id', class='col-sm-2 col-form-label') Cesta
-            select(class='form-control', name='basket_id')
-                each basket in baskets
-                    option(value=basket.id)= basket.description
-        div(class='col-sm-4')
-            button(type='submit', class='btn btn-primary') Cadastrar
+                option(value=basket.id)= basket.description
+        label(for='date', class='col-sm-2 col-form-label') Date
+        input(name='date', type='date' value=date)
