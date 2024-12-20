@@ -5,7 +5,7 @@ const db = new sqlite3.Database('lider_cestas.db');
 const flash = require('connect-flash');
 
 router.get('/', (req, res, next) => {
-    db.all('SELECT * FROM baskets JOIN products ON products.id = baskets.product_id', (err, baskets) => {
+    db.all('SELECT * FROM baskets b1 JOIN products p1 ON b1.product_id = p1.id', (err, baskets) => {
         if (err) {
             return next(err);
         }
@@ -13,24 +13,54 @@ router.get('/', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            res.render('configurations', { title: 'Configurations', baskets: baskets, products: products });
-            const { basket_id, date } = req.body;
-            if (basket_id){
-                console.log('logged')
-            }
-            if (basket_id && date) {
-                db.all('SELECT * FROM config_basket c1 JOIN baskets b1 ON c1.basket_id = b1.id JOIN products p1 ON b1.product_id = p1.id WHERE c1.basket_id = ? AND c1.date = ?',
-                    [basket_id, date], (err, configurations) => {
+            const { basket_id } = req.query;
+            if (basket_id) {
+                db.all('SELECT * FROM config_basket JOIN products ON config_basket.product_id = products.id WHERE config_basket.basket_id = ?', [basket_id], (err, basketProducts) => {
                     if (err) {
                         return next(err);
                     }
-                    res.render('configurations', { title: 'Configurations', configurations: configurations, selectedBasket: basket_id, selectedDate: date });
+                    res.render('configurations', { title: 'Configurations', baskets: baskets, products: products, basketProducts: basketProducts, selectedBasket: basket_id });
                 });
             } else {
-                res.render('configurations', { title: 'Configurations', baskets: baskets, products: products, configurations: [], selectedBasket: null, selectedDate: null });
+                res.render('configurations', { title: 'Configurations', baskets: baskets, products: products, basketProducts: [], selectedBasket: null });
             }
         });
     });
+});
+
+router.post('/', (req, res) => {
+    const { basket_id, amount, product_id } = req.body;
+    if (!basket_id || !amount || !product_id) {
+        return res.status(403).redirect('/configurations');
+    }
+    db.run(`
+        INSERT INTO config_basket (basket_id, amount, product_id) VALUES (?, ?, ?)`,
+        [basket_id, amount, product_id], function(err) {
+            if (err) {
+                req.flash('error', 'Erro ao inserir produto');
+                return res.status(500).redirect(`/configurations?basket_id=${basket_id}`);
+            }
+            req.flash('success', 'Produto Inserido');
+            res.redirect(`/configurations?basket_id=${basket_id}`);
+        }
+    );
+});
+
+router.post('/delete', (req, res) => {
+    const { id, basket_id } = req.body;
+    if (!id) {
+        return res.status(403).redirect(`/configurations?basket_id=${basket_id}`);
+    }
+    db.run(`
+        DELETE FROM config_basket WHERE id = ?`,
+        [id], function(err) {
+            if (err) {
+                req.flash('errDelete', 'Erro na exclusão');
+                return res.status(500).redirect(`/configurations?basket_id=${basket_id}`);
+            }
+            res.redirect(`/configurations?basket_id=${basket_id}`);
+        }
+    );
 });
 
 module.exports = router;

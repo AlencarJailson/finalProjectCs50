@@ -1,11 +1,41 @@
-extends layout
-
 block content
     h1= title
-    div(class='col-sm-4')
-        label(for='basket' class='col-sm-2 col-form-label') Cesta
-        select(class='form-control', name='basket_id', onchange='this.form.submit()')
-            each basket in baskets
-                option(value=basket.id)= basket.description
-        label(for='date', class='col-sm-2 col-form-label') Date
-        input(name='date', type='date' value=date)
+            form(method='GET', action='/configurations')
+                div(class='col-sm-4')
+                    label(for='basket_id') Selecione uma Cesta
+                    select(class='form-control', name='basket_id', onchange='this.form.submit()')
+                        option(value='') Selecione uma Cesta
+                        each basket in baskets
+                            option(value=basket.id, selected=(basket.id == selectedBasket))= basket.description
+            if selectedBasket
+                h4 Adicionar Produto à Cesta
+                form(method='POST', action='/configurations')
+                    div(class='col-sm-4')
+                        label(for='product_id') Produto
+                        select(class='form-control', name='product_id')
+                            each product in products
+                                option(value=product.id)= product.description
+                    div(class='col-sm-4')
+                        label(for='amount') Quantidade
+                        input(type='text', class='form-control', name='amount')
+                    div(class='col-sm-4')
+                        input(type='hidden', name='basket_id', value=selectedBasket)
+                    button(type='submit', class='btn btn-primary') Adicionar
+    if selectedBasket
+        h3 Produtos na Cesta
+        table(class='table table-hover')
+            thead(class='thead-dark')
+                tr
+                    th Produto
+                    th Quantidade
+                    th Ação
+            tbody
+                each product in basketProducts
+                    tr
+                        td= product.description
+                        td= product.amount
+                        td
+                            form(method='POST', action='/configurations/delete')
+                                input(name='id', type='hidden', value=product.id)
+                                input(name='basket_id', type='hidden', value=selectedBasket)
+                                button(class='btn btn-primary', type='submit') Delete
